@@ -1,5 +1,5 @@
 -- =============================================================================
--- 02-seed.sql — Jola Yacht initial seed data
+-- 02-seed.sql - Isla Brava initial seed data
 -- Runs automatically via docker-entrypoint-initdb.d after 01-init.sql
 -- Requires: pgcrypto extension (created in 01-init.sql)
 -- =============================================================================
@@ -10,9 +10,9 @@
 -- ─────────────────────────────────────────────
 INSERT INTO admin_users (email, password_hash, name)
 VALUES (
-  'admin@jolayacht.com',
+  'admin@islabrava.mx',
   crypt('admin123', gen_salt('bf')),  -- ← matches ADMIN_PASSWORD in .env
-  'Jola Admin'
+  'Isla Brava Admin'
 )
 ON CONFLICT (email) DO UPDATE
   SET password_hash = crypt('admin123', gen_salt('bf'));  -- ← forces update if user exists
@@ -102,7 +102,7 @@ INSERT INTO fleet
    amenities_es, amenities_en, specs, images)
 VALUES
   (
-    'Jola Princess', 'yacht',
+    'Isla Brava Princess', 'yacht',
     'Nuestro yate insignia de 45 pies. Lujo, comodidad y velocidad para hasta 12 pasajeros. Perfecto para tours privados y eventos especiales.',
     'Our flagship 45-foot yacht. Luxury, comfort, and speed for up to 12 passengers. Perfect for private tours and special events.',
     12, 250.00,
@@ -292,12 +292,12 @@ VALUES
     'all', true, '#FF7F50'
   ),
   (
-    'Código Especial: JOLA20',
-    'Special Code: JOLA20',
-    'Usa el código JOLA20 y obtén 20% de descuento en cualquier reserva.',
-    'Use code JOLA20 and get 20% off any booking.',
+    'Código Especial: ISLA20',
+    'Special Code: ISLA20',
+    'Usa el código ISLA20 y obtén 20% de descuento en cualquier reserva.',
+    'Use code ISLA20 and get 20% off any booking.',
     'percentage', 20.00,
-    'JOLA20', 'custom', CURRENT_DATE, CURRENT_DATE + INTERVAL '180 days',
+    'ISLA20', 'custom', CURRENT_DATE, CURRENT_DATE + INTERVAL '180 days',
     'all', true, '#4A90D9'
   ),
   (

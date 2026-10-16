@@ -8,8 +8,8 @@ import { toast } from 'sonner';
 
 const WHATSAPP_NUMBER = '529988203360'; // Placeholder
 const DISPLAY_WHATSAPP_NUMBER = '+52 998 820 3360';
-const EMAILS = ['info@jolayacht.com', 'geovani_mis@live.com'];
-const EMAIL = 'info@jolayacht.com';
+const EMAILS = ['info@islabrava.mx', 'geovani_mis@live.com'];
+const EMAIL = 'info@islabrava.mx';
 const ADDRESS = 'Blvd. Kukulcan Km 5.8, Kukulcan Boulevard, Zona Hotelera, 77500 Cancún, Q.R.';
 
 export const ContactSection = () => {
@@ -40,8 +40,8 @@ export const ContactSection = () => {
   const openWhatsApp = () => {
     const message = encodeURIComponent(
       language === 'es' 
-        ? '¡Hola! Me interesa reservar una experiencia con Jola Yacht.' 
-        : 'Hello! I am interested in booking an experience with Jola Yacht.'
+        ? '¡Hola! Me interesa reservar una experiencia con Isla Brava.' 
+        : 'Hello! I am interested in booking an experience with Isla Brava.'
     );
     window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${message}`, '_blank');
   };
@@ -136,7 +136,7 @@ export const ContactSection = () => {
                 allowFullScreen=""
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
-                title="Jola Yacht Location"
+                title="Isla Brava Location"
               />
             </div>
           </div>

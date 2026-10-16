@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <g fill="none" stroke="#A98B52" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+    <!-- headset band -->
+    <path d="M27 48V39C27 25 37 15 50 15C63 15 73 25 73 39V48"/>
+    <!-- ear pads -->
+    <rect x="21" y="42" width="10" height="23" rx="4"/>
+    <rect x="69" y="42" width="10" height="23" rx="4"/>
+    <!-- head -->
+    <path d="M39 39C39 32 44 27 50 27C56 27 61 32 61 39V48C61 57 56 63 50 63C44 63 39 57 39 48Z"/>
+    <!-- shoulders -->
+    <path d="M30 86C32 73 39 67 50 67C61 67 68 73 70 86"/>
+    <!-- microphone -->
+    <path d="M74 61C73 70 67 74 58 74"/>
+    <circle cx="56" cy="74" r="2"/>
+  </g>
+</svg>

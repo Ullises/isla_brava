@@ -1,10 +1,10 @@
 <p align="center">
-  <img src="frontend/public/assets/logo.png" alt="Jola Yacht logo" width="180" />
+  <img src="frontend/public/assets/01_logo_header.png" alt="Isla Brava logo" width="180" />
 </p>
 
-# Jola Yacht
+# Isla Brava
 
-Booking site for water activities (yacht, jetski, and waverunner rentals and experiences), Cancún-style, bilingual (Spanish/English).
+Booking site for water activities (yacht, jetski, and waverunner rentals and experiences), Cancún-style, bilingual (Spanish/English), for Isla Brava Yachts & Jet Skis.
 
 Monorepo with a separate `frontend/` (React) and `backend/` (FastAPI), each with its own dependency tree and no shared root package.
 
@@ -27,7 +27,7 @@ There is no separate lint script; ESLint rules are wired into CRACO's webpack co
 
 ### Backend (`backend/`)
 ```bash
-docker-compose up --build   # runs db-jolayacht (Postgres), backend (FastAPI on :5010), adminer (:8081)
+docker-compose up --build   # runs db-islabrava (Postgres), backend (FastAPI on :5010), adminer (:8081)
 ```
 Requires a pre-existing `.env` in `backend/` (`DB_HOST`, `DB_USER`, `DB_PASSWORD`, `DB_NAME`, `DB_PORT`, `DATABASE_URL`, `JWT_SECRET_KEY`, `STRIPE_API_KEY`, `STRIPE_WEBHOOK_SECRET`, `PAYPAL_CLIENT_ID`/`SECRET`, `CORS_ORIGINS`, `ADMIN_EMAIL`/`PASSWORD`).
 
@@ -47,8 +47,8 @@ from `backend/`, with a venv that has `requirements.txt` installed and `.env` lo
 Everything lives in `backend/src/`, three layers, no framework-level routers/blueprints — it's all one FastAPI app instance:
 
 - `API/api.py` — the entire FastAPI app: route declarations, Pydantic request models, CORS, Stripe/PayPal checkout flows, admin JWT auth dependency (`get_current_admin`).
-- `Utils/jolayacht_exec.py` — business logic layer (experiences, fleet, reviews, faqs, promotions, reservations, payments, stats, auth). Also owns password hashing/JWT and booking confirmation emails.
-- `Queries/jolayacht_queries.py` — raw SQL query builders/strings consumed by the Utils layer.
+- `Utils/islabrava_exec.py` — business logic layer (experiences, fleet, reviews, faqs, promotions, reservations, payments, stats, auth). Also owns password hashing/JWT and booking confirmation emails.
+- `Queries/islabrava_queries.py` — raw SQL query builders/strings consumed by the Utils layer.
 - `config/config.py` — reads `.env` into module-level constants.
 
 No ORM models; rows are plain dicts. IDs are Postgres `uuid` (via `pgcrypto`'s `gen_random_uuid()`).

@@ -1,4 +1,4 @@
-# Jola Yacht Backend API
+# Isla Brava Backend API
 
 API REST para la reserva de motos acuaticas y yates desarrollada con FastAPI y MySQL.
 
@@ -6,7 +6,7 @@ API REST para la reserva de motos acuaticas y yates desarrollada con FastAPI y M
 
 ### Prerrequisitos
 - Docker y Docker Compose
-- Red Docker `jolayacht-net` (debe existir previamente)
+- Red Docker `islabrava-net` (creada automáticamente por Compose)
 
 ### Configuración
 1. Clona el repositorio
@@ -42,20 +42,20 @@ docker-compose up --build
 
 ### Acceder al contenedor
 ```bash
-docker exec -it jolayacht-backend /bin/bash
+docker exec -it islabrava-backend /bin/bash
 ```
 
 ### Descargar backups
 ```bash
-docker cp jolayacht-backend:/app/backupsDB ./backups_local
+docker cp islabrava-backend:/app/backupsDB ./backups_local
 ```
 
 ## 📁 Estructura del Proyecto
 ```
 src/
 ├── API/api.py          # Endpoints FastAPI
-├── Utils/jolayacht_exec.py  # Lógica de negocio
-├── Queries/jolayacht_queries.py  # Consultas SQL
+├── Utils/islabrava_exec.py  # Lógica de negocio
+├── Queries/islabrava_queries.py  # Consultas SQL
 └── config/config.py    # Configuración DB
 ```
 

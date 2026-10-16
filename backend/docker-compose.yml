@@ -1,7 +1,7 @@
 services:
-  db-jolayacht:
+  db-islabrava:
     image: postgres:16
-    container_name: jolayacht-db
+    container_name: islabrava-db
     restart: unless-stopped
     env_file:
       - .env
@@ -16,36 +16,36 @@ services:
       - ./init.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
       - ./seed.sql:/docker-entrypoint-initdb.d/02-seed.sql:ro
     networks:
-      - jolayacht-net
+      - islabrava-net
 
   backend:
     build:
       dockerfile: dockerfile
-    container_name: jolayacht-backend
+    container_name: islabrava-backend
     restart: unless-stopped
     env_file:
       - .env
     depends_on:
-      - db-jolayacht
+      - db-islabrava
     ports:
       - "5010:5010"
     networks:
-      - jolayacht-net
+      - islabrava-net
 
   adminer:
     image: adminer
-    container_name: jolayacht-adminer
+    container_name: islabrava-adminer
     restart: unless-stopped
     depends_on:
-      - db-jolayacht
+      - db-islabrava
     ports:
       - "8081:8080"
     networks:
-      - jolayacht-net
+      - islabrava-net
 
 volumes:
   postgres_data:
 
 networks:
-  jolayacht-net:
+  islabrava-net:
     driver: bridge

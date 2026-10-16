@@ -1,15 +1,17 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Manrope:wght@300;400;500;600;700&family=La+Belle+Aurore&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Manrope:wght@300;400;500;600;700&family=La+Belle+Aurore&family=Kaushan+Script&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --jola-primary: #0F2C59;
-  --jola-secondary: #FF7F50;
-  --jola-success: #10B981;
-  --jola-bg: #FFFFFF;
-  --jola-bg-alt: #F8F9FA;
+  --isla-navy: #12344A;
+  --isla-deep: #08283B;
+  --isla-teal: #168FA0;
+  --isla-coral: #EF633D;
+  --isla-gold: #B8945F;
+  --isla-bg: #FFFDF8;
+  --isla-bg-alt: #F4EEE5;
 }
 
 body {
@@ -17,7 +19,7 @@ body {
   font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: var(--jola-bg);
+  background-color: var(--isla-bg);
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -39,12 +41,12 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--jola-primary);
+  background: var(--isla-navy);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #0a1f3d;
+  background: var(--isla-deep);
 }
 
 /* Glass morphism */
@@ -92,7 +94,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Button styles */
 .btn-primary {
-  background-color: var(--jola-primary);
+  background-color: var(--isla-navy);
   color: white;
   transition: all 0.3s ease;
 }
@@ -104,7 +106,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .btn-secondary {
-  background-color: var(--jola-secondary);
+  background-color: var(--isla-coral);
   color: white;
   transition: all 0.3s ease;
 }
@@ -139,7 +141,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Section backgrounds */
 .section-alt {
-  background-color: var(--jola-bg-alt);
+  background-color: var(--isla-bg-alt);
 }
 
 /* Card heart icon */
@@ -209,6 +211,6 @@ html {
 
 /* Custom focus styles */
 *:focus-visible {
-  outline: 2px solid var(--jola-primary);
+  outline: 2px solid var(--isla-teal);
   outline-offset: 2px;
 }

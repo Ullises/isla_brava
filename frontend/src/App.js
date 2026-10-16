@@ -7,16 +7,19 @@ import { LanguageProvider } from "./context/LanguageContext";
 // Components
 import { Navbar } from "./components/Navbar";
 import { HeroSection } from "./components/HeroSection";
-import { ExperiencesSection } from "./components/ExperiencesSection";
-import { WhyUsSection } from "./components/WhyUsSection";
-import { FleetSection } from "./components/FleetSection";
-import { ReviewsSection } from "./components/ReviewsSection";
-import { FAQSection } from "./components/FAQSection";
-import { ContactSection } from "./components/ContactSection";
 import { Footer } from "./components/Footer";
+import {
+  AboutSection,
+  BenefitsStrip,
+  CallToActionSection,
+  CategoryShowcase,
+  CategoryStrip,
+} from "./components/LandingShowcase";
 import { BookingPage } from "./components/BookingPage";
 import { PaymentSuccess, PaymentCancel } from "./components/PaymentPages";
 import { AdminLogin, AdminDashboard } from "./components/AdminDashboard";
+import { CatalogPage } from "./components/CatalogPage";
+import { WhatsAppFloat } from "./components/WhatsApp";
 
 // Landing Page
 const LandingPage = () => {
@@ -25,12 +28,11 @@ const LandingPage = () => {
       <Navbar />
       <main>
         <HeroSection />
-        <ExperiencesSection />
-        <WhyUsSection />
-        <FleetSection />
-        <ReviewsSection />
-        <FAQSection />
-        <ContactSection />
+        <CategoryStrip />
+        <AboutSection />
+        <CategoryShowcase />
+        <BenefitsStrip />
+        <CallToActionSection />
       </main>
       <Footer />
     </>
@@ -45,6 +47,8 @@ function App() {
           <Routes>
             {/* Public Routes */}
             <Route path="/" element={<LandingPage />} />
+            <Route path="/experiences" element={<CatalogPage type="experiences" />} />
+            <Route path="/fleet" element={<CatalogPage type="fleet" />} />
             
             {/* Booking Routes */}
             <Route path="/booking/:experienceId" element={
@@ -68,6 +72,7 @@ function App() {
             <Route path="/admin" element={<AdminLogin />} />
             <Route path="/admin/dashboard" element={<AdminDashboard />} />
           </Routes>
+          <WhatsAppFloat />
         </BrowserRouter>
         <Toaster position="top-center" richColors />
       </div>

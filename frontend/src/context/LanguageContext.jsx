@@ -5,6 +5,8 @@ const translations = {
     // Navigation
     nav: {
       inicio: 'Inicio',
+      nosotros: 'Nosotros',
+      servicios: 'Servicios',
       flota: 'Flota',
       experiencias: 'Experiencias',
       faqs: 'FAQs',
@@ -117,6 +119,8 @@ const translations = {
     // Navigation
     nav: {
       inicio: 'Home',
+      nosotros: 'About us',
+      servicios: 'Services',
       flota: 'Fleet',
       experiencias: 'Experiences',
       faqs: 'FAQs',
@@ -231,12 +235,12 @@ const LanguageContext = createContext();
 
 export const LanguageProvider = ({ children }) => {
   const [language, setLanguage] = useState(() => {
-    const saved = localStorage.getItem('jola-language');
+    const saved = localStorage.getItem('isla-brava-language');
     return saved || 'es';
   });
 
   useEffect(() => {
-    localStorage.setItem('jola-language', language);
+    localStorage.setItem('isla-brava-language', language);
   }, [language]);
 
   const t = (key) => {

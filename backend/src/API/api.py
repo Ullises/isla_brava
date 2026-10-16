@@ -1,4 +1,4 @@
-﻿# api.py - Jola Yacht FastAPI application
+﻿# api.py - Isla Brava FastAPI application
 import sys
 import os
 from typing import List, Optional, Dict, Any
@@ -16,7 +16,7 @@ from fastapi import Request
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from config.config import DATABASE_URL
-from Utils.jolayacht_exec import (
+from Utils.islabrava_exec import (
     # Auth
     hash_password, verify_password, create_token, verify_token,
     get_admin_by_email, create_admin,
@@ -51,7 +51,7 @@ from Utils.jolayacht_exec import (
 # APP SETUP
 # =============================================================================
 
-app = FastAPI(title="Jola Yacht API", version="2.0.0")
+app = FastAPI(title="Isla Brava API", version="2.0.0")
 
 app.add_middleware(
     CORSMiddleware,
@@ -198,7 +198,7 @@ def get_current_admin(authorization: Optional[str] = Header(None)):
 
 @app.get("/")
 async def root():
-    return {"message": "Jola Yacht API is running", "version": "2.0.0"}
+    return {"message": "Isla Brava API is running", "version": "2.0.0"}
 
 
 @app.get("/health")
@@ -383,7 +383,7 @@ async def create_checkout_session(body: CheckoutRequest):
                     "currency": "mxn",
                     "unit_amount": int(float(reservation["total_price"]) * 100),  # cents
                     "product_data": {
-                        "name": "Jola Yacht Reservation",
+                        "name": "Isla Brava Reservation",
                         "description": f'Reservation for {reservation["customer_name"]}',
                     },
                 },
@@ -497,13 +497,13 @@ async def create_paypal_order(body: PaypalCheckoutRequest):
                         "currency_code": "MXN",
                         "value": amount,
                     },
-                    "description": f"Jola Yacht – {reservation['customer_name']}",
+                        "description": f"Isla Brava - {reservation['customer_name']}",
                     "custom_id": body.reservation_id,
                 }],
                 "application_context": {
                     "return_url": return_url,
                     "cancel_url": cancel_url,
-                    "brand_name": "Jola Yacht",
+                    "brand_name": "Isla Brava",
                     "user_action": "PAY_NOW",
                 },
             },
