@@ -1,14 +1,20 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
 import { Facebook, Instagram, Twitter, Youtube, MapPin, Phone, Mail } from 'lucide-react';
 
-const LOGO_URL = "https://customer-assets.emergentagent.com/job_f2a5924b-a93c-4571-8a4d-3f1155f9659e/artifacts/tf809sz8_ChatGPT%20Image%20Dec%204%2C%202025%2C%2009_48_36%20PM.png";
+const LOGO_URL = "/assets/13_footer_logo.png";
 
 export const Footer = () => {
   const { language, t } = useLanguage();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const scrollToSection = (href) => {
+    if (location.pathname !== '/') {
+      navigate(`/${href}`);
+      return;
+    }
     const element = document.querySelector(href);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
@@ -17,9 +23,8 @@ export const Footer = () => {
 
   const navLinks = [
     { href: '#inicio', label: language === 'es' ? 'Inicio' : 'Home' },
-    { href: '#experiencias', label: language === 'es' ? 'Experiencias' : 'Experiences' },
-    { href: '#flota', label: language === 'es' ? 'Flota' : 'Fleet' },
-    { href: '#faq', label: 'FAQs' },
+    { href: '/experiences', label: language === 'es' ? 'Experiencias' : 'Experiences' },
+    { href: '/fleet', label: language === 'es' ? 'Flota' : 'Fleet' },
     { href: '#contacto', label: language === 'es' ? 'Contacto' : 'Contact' },
   ];
 
@@ -33,7 +38,7 @@ export const Footer = () => {
   return (
     <footer 
       data-testid="footer"
-      className="bg-[#0F2C59] text-white"
+      className="site-footer"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
@@ -41,7 +46,7 @@ export const Footer = () => {
           <div className="lg:col-span-2">
             <img 
               src={LOGO_URL} 
-              alt="Jola Yacht" 
+              alt="Isla Brava Yachts & Jet Skis"
               className="h-20 w-auto mb-6"
             />
             <p className="text-white/70 leading-relaxed mb-6 max-w-md">
@@ -64,12 +69,18 @@ export const Footer = () => {
 
           {/* Quick Links */}
           <div>
-            <h4 className="text-lg font-semibold mb-6">{t('footer.links')}</h4>
+            <h4 className="text-lg font-semibold mb-6 text-white">{t('footer.links')}</h4>
             <ul className="space-y-3">
               {navLinks.map((link, index) => (
                 <li key={index}>
                   <button
-                    onClick={() => scrollToSection(link.href)}
+                    onClick={() => {
+                      if (link.href.startsWith('/')) {
+                        navigate(link.href);
+                      } else {
+                        scrollToSection(link.href);
+                      }
+                    }}
                     className="text-white/70 hover:text-[#FF7F50] transition-colors"
                   >
                     {link.label}
@@ -81,7 +92,7 @@ export const Footer = () => {
 
           {/* Contact Info */}
           <div>
-            <h4 className="text-lg font-semibold mb-6">{t('footer.contacto')}</h4>
+            <h4 className="text-lg font-semibold mb-6 text-white">{t('footer.contacto')}</h4>
             <ul className="space-y-4">
               <li className="flex items-start gap-3">
                 <MapPin className="w-5 h-5 text-[#FF7F50] flex-shrink-0 mt-1" />
@@ -95,7 +106,7 @@ export const Footer = () => {
               </li>
               <li className="flex items-center gap-3">
                 <Mail className="w-5 h-5 text-[#FF7F50] flex-shrink-0" />
-                <span className="text-white/70 text-sm">info@jolayacht.com</span>
+                <span className="text-white/70 text-sm">info@islabrava.mx</span>
               </li>
               <li className="flex items-center gap-3">
                 <Mail className="w-5 h-5 text-[#FF7F50] flex-shrink-0" />
@@ -108,7 +119,7 @@ export const Footer = () => {
         {/* Bottom Bar */}
         <div className="border-t border-white/10 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-white/50 text-sm">
-            © {new Date().getFullYear()} Jola Yacht. {t('footer.derechos')}.
+            © {new Date().getFullYear()} Isla Brava Yachts & Jet Skis. {t('footer.derechos')}.
           </p>
           <div className="flex items-center gap-6 text-sm text-white/50">
             <a href="#" className="hover:text-white transition-colors">

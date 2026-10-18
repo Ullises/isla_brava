@@ -8,12 +8,12 @@ DB_HOST = os.getenv("DB_HOST", "localhost")
 DB_PORT = os.getenv("DB_PORT", "5432")
 DB_USER = os.getenv("DB_USER", "postgres")
 DB_PASSWORD = os.getenv("DB_PASSWORD", "postgres")
-DB_NAME = os.getenv("DB_NAME", "jola_yacht")
+DB_NAME = os.getenv("DB_NAME", "islabrava")
 
 DATABASE_URL = f"postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
 
 # JWT Config
-JWT_SECRET = os.getenv("JWT_SECRET_KEY", "jola_yacht_secret_key")
+JWT_SECRET = os.getenv("JWT_SECRET_KEY", "isla_brava_secret_key")
 JWT_ALGORITHM = "HS256"
 JWT_EXPIRATION_HOURS = 24
 

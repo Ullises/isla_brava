@@ -1,34 +1,75 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { Menu, X, Globe, ChevronDown } from 'lucide-react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Menu, X, Globe, ArrowRight } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
-import { Button } from './ui/button';
+import { WhatsAppIcon, getWhatsAppUrl } from './WhatsApp';
 
-const LOGO_URL = "https://customer-assets.emergentagent.com/job_f2a5924b-a93c-4571-8a4d-3f1155f9659e/artifacts/tf809sz8_ChatGPT%20Image%20Dec%204%2C%202025%2C%2009_48_36%20PM.png";
+const LOGO_URL = "/assets/01_logo_header.png";
+
+// Landing sections watched for the active-link underline, in page order.
+// The category showcase (#experiencias) highlights the Experiences link.
+const SECTION_LINKS = [
+  { id: 'inicio', href: '#inicio' },
+  { id: 'servicios', href: '#servicios' },
+  { id: 'nosotros', href: '#nosotros' },
+  { id: 'experiencias', href: '/experiences' },
+  { id: 'contacto', href: '#contacto' },
+];
 
 export const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { language, toggleLanguage, t } = useLanguage();
+  const [activeSection, setActiveSection] = useState('#inicio');
+  const { toggleLanguage, language, t } = useLanguage();
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
+
+      if (location.pathname !== '/') return;
+      const offset = 140;
+      const atBottom = window.innerHeight + window.scrollY >= document.body.scrollHeight - 4;
+      let current = SECTION_LINKS[0].href;
+      SECTION_LINKS.forEach(({ id, href }) => {
+        const el = document.getElementById(id);
+        if (el && el.getBoundingClientRect().top <= offset) current = href;
+      });
+      setActiveSection(atBottom ? '#contacto' : current);
     };
+    handleScroll();
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [location.pathname]);
+
+  // Coming from another page via "/#section": scroll there once the landing renders.
+  useEffect(() => {
+    if (location.pathname !== '/' || !location.hash) return;
+    const el = document.querySelector(location.hash);
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  }, [location.pathname, location.hash]);
 
   const navLinks = [
     { href: '#inicio', label: t('nav.inicio') },
-    { href: '#flota', label: t('nav.flota') },
-    { href: '#experiencias', label: t('nav.experiencias') },
-    { href: '#faq', label: t('nav.faqs') },
+    { href: '#nosotros', label: t('nav.nosotros') },
+    { href: '#servicios', label: t('nav.servicios') },
+    { href: '/fleet', label: t('nav.flota') },
+    { href: '/experiences', label: t('nav.experiencias') },
     { href: '#contacto', label: t('nav.contacto') },
   ];
 
+  const whatsappUrl = getWhatsAppUrl(language);
+
+  const isActive = (href) =>
+    location.pathname === '/' ? activeSection === href : location.pathname.startsWith(href);
+
   const scrollToSection = (href) => {
+    if (href.startsWith('/') || (href.startsWith('#') && location.pathname !== '/')) {
+      navigate(href.startsWith('/') ? href : `/${href}`);
+      setIsMobileMenuOpen(false);
+      return;
+    }
     const element = document.querySelector(href);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
@@ -39,11 +80,7 @@ export const Navbar = () => {
   return (
     <nav
       data-testid="navbar"
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled 
-          ? 'bg-white/95 backdrop-blur-md shadow-lg py-2' 
-          : 'bg-transparent py-4'
-      }`}
+      className={`site-navbar ${isScrolled ? 'site-navbar--scrolled' : ''}`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
@@ -51,8 +88,8 @@ export const Navbar = () => {
           <Link to="/" className="flex items-center" data-testid="logo">
             <img 
               src={LOGO_URL} 
-              alt="Jola Yacht" 
-              className="h-16 md:h-20 w-auto object-contain"
+              alt="Isla Brava Yachts & Jet Skis"
+              className="site-navbar__logo"
             />
           </Link>
 
@@ -63,11 +100,8 @@ export const Navbar = () => {
                 key={link.href}
                 onClick={() => scrollToSection(link.href)}
                 data-testid={`nav-${link.href.replace('#', '')}`}
-                className={`font-medium transition-colors duration-200 ${
-                  isScrolled 
-                    ? 'text-[#0F2C59] hover:text-[#FF7F50]' 
-                    : 'text-white hover:text-[#FF7F50] drop-shadow-md'
-                }`}
+                className={`site-navbar__link ${isActive(link.href) ? 'site-navbar__link--active' : ''}`}
+                aria-current={isActive(link.href) ? 'page' : undefined}
               >
                 {link.label}
               </button>
@@ -80,33 +114,31 @@ export const Navbar = () => {
             <button
               onClick={toggleLanguage}
               data-testid="language-toggle"
-              className={`flex items-center space-x-1 px-3 py-2 rounded-full transition-all ${
-                isScrolled 
-                  ? 'text-[#0F2C59] hover:bg-gray-100' 
-                  : 'text-white hover:bg-white/20'
-              }`}
+              className="site-navbar__language"
             >
               <Globe className="w-4 h-4" />
               <span className="font-medium">{language.toUpperCase()}</span>
             </button>
 
             {/* CTA Button */}
-            <Button
-              onClick={() => scrollToSection('#experiencias')}
+            <a
+              href={whatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
               data-testid="cta-reservar"
-              className="bg-[#10B981] hover:bg-[#059669] text-white font-semibold px-6 py-2 rounded-full transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5"
+              className="isla-button isla-button--gold site-navbar__cta"
             >
+              <WhatsAppIcon className="site-navbar__cta-icon" />
               {t('nav.reservar')}
-            </Button>
+              <ArrowRight className="w-4 h-4" aria-hidden="true" />
+            </a>
           </div>
 
           {/* Mobile menu button */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             data-testid="mobile-menu-toggle"
-            className={`lg:hidden p-2 rounded-lg ${
-              isScrolled ? 'text-[#0F2C59]' : 'text-white'
-            }`}
+            className="site-navbar__mobile-toggle lg:hidden"
           >
             {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
@@ -120,7 +152,7 @@ export const Navbar = () => {
                 <button
                   key={link.href}
                   onClick={() => scrollToSection(link.href)}
-                  className="text-[#0F2C59] font-medium py-2 px-4 rounded-lg hover:bg-gray-100 text-left"
+                  className={`text-[#0F2C59] font-medium py-2 px-4 rounded-lg hover:bg-gray-100 text-left border-l-2 ${isActive(link.href) ? 'border-[#B8945F]' : 'border-transparent'}`}
                 >
                   {link.label}
                 </button>
@@ -133,12 +165,17 @@ export const Navbar = () => {
                   <Globe className="w-4 h-4" />
                   <span>{language === 'es' ? 'English' : 'Español'}</span>
                 </button>
-                <Button
-                  onClick={() => scrollToSection('#experiencias')}
-                  className="w-full mt-3 bg-[#10B981] hover:bg-[#059669] text-white font-semibold rounded-full"
+                <a
+                  href={whatsappUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="isla-button isla-button--gold site-navbar__cta w-full mt-3"
                 >
+                  <WhatsAppIcon className="site-navbar__cta-icon" />
                   {t('nav.reservar')}
-                </Button>
+                  <ArrowRight className="w-4 h-4" aria-hidden="true" />
+                </a>
               </div>
             </div>
           </div>

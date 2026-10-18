@@ -1,5 +1,5 @@
 """
-seed.py - Populate Jola Yacht PostgreSQL database with realistic demo data.
+seed.py - Populate the Isla Brava PostgreSQL database with realistic demo data.
 Run from the backend/ directory:
     python seed.py
 """
@@ -44,7 +44,7 @@ def jdump(obj) -> str:
 
 def seed_admin():
     print("  → Admin user...")
-    existing = run("SELECT id FROM admin_users WHERE email = :e", {"e": "admin@jolayacht.com"})
+    existing = run("SELECT id FROM admin_users WHERE email = :e", {"e": "admin@islabrava.com"})
     if existing:
         print("     already exists, skipping.")
         return
@@ -55,9 +55,9 @@ def seed_admin():
         INSERT INTO admin_users (email, password_hash, name)
         VALUES (:email, :pw, :name)
         """,
-        {"email": "admin@jolayacht.com", "pw": hashed, "name": "Jola Admin"},
+        {"email": "admin@islabrava.com", "pw": hashed, "name": "Isla Brava Admin"},
     )
-    print("     created  admin@jolayacht.com  /  Admin1234!")
+    print("     created  admin@islabrava.com  /  Admin1234!")
 
 
 # =============================================================================
@@ -192,7 +192,7 @@ def seed_experiences():
 
 FLEET = [
     {
-        "name": "Jola Princess",
+        "name": "Isla Brava Princess",
         "type": "yacht",
         "description_es": "Nuestro yate insignia de 45 pies. Lujo, comodidad y velocidad para hasta 12 pasajeros. Perfecto para tours privados y eventos especiales.",
         "description_en": "Our flagship 45-foot yacht. Luxury, comfort, and speed for up to 12 passengers. Perfect for private tours and special events.",
@@ -504,16 +504,16 @@ def seed_promotions():
             "applies_to": jdump(["all"]),
         },
         {
-            "title_es": "Código Especial: JOLA20",
-            "title_en": "Special Code: JOLA20",
-            "description_es": "Usa el código JOLA20 y obtén 20% de descuento en cualquier reserva.",
-            "description_en": "Use code JOLA20 and get 20% off any booking.",
+            "title_es": "Código Especial: ISLA20",
+            "title_en": "Special Code: ISLA20",
+            "description_es": "Usa el código ISLA20 y obtén 20% de descuento en cualquier reserva.",
+            "description_en": "Use code ISLA20 and get 20% off any booking.",
             "discount_percentage": 20.0,
             "discount_amount": None,
             "season_type": "custom",
             "start_date": str(today),
             "end_date": str(today + timedelta(days=180)),
-            "promo_code": "JOLA20",
+            "promo_code": "ISLA20",
             "is_active": True,
             "applies_to": jdump(["all"]),
         },
@@ -558,7 +558,7 @@ def seed_promotions():
 # =============================================================================
 
 def main():
-    print("\n🌊  Jola Yacht — Database Seeder")
+    print("\n🌊  Isla Brava — Database Seeder")
     print("=" * 40)
 
     seed_admin()
@@ -571,10 +571,10 @@ def main():
     print("=" * 40)
     print("✅  Seed complete!\n")
     print("  Admin login:")
-    print("    Email   : admin@jolayacht.com")
+    print("    Email   : admin@islabrava.com")
     print("    Password: Admin1234!\n")
     print("  Promo codes available:")
-    print("    JOLA20     → 20% off any booking")
+    print("    ISLA20     → 20% off any booking")
     print("    WEEKEND15  → $15 off weekend bookings\n")
 
 

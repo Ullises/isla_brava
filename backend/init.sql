@@ -1,9 +1,9 @@
--- jola_yacht (PostgreSQL) init schema
+-- isla_brava (PostgreSQL) init schema
 -- Requirements:
 -- - Postgres
 -- - Time slots are per asset (experience or fleet)
 -- - Prevent double booking per asset + date + time_slot
--- - Promotions, admin auth, payments similar to jola_yacht server.py
+-- - Promotions, admin auth, payments similar to isla_brava server.py
 
 -- Extensions
 CREATE EXTENSION IF NOT EXISTS pgcrypto;

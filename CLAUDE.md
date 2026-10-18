@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project overview
 
-Jola Yacht — a booking site for water activities (yacht/jetski/waverunner rentals and experiences) in Cancún-style Spanish/English bilingual style. Monorepo with a separate `frontend/` (React) and `backend/` (FastAPI), each with its own dependency tree and no shared root package.
+Isla Brava — a booking site for water activities (yacht/jetski/waverunner rentals and experiences) in Cancún-style Spanish/English bilingual style. Monorepo with a separate `frontend/` (React) and `backend/` (FastAPI), each with its own dependency tree and no shared root package.
 
 ## Repo layout
 
@@ -24,9 +24,9 @@ There is no lint script defined; ESLint rules are wired into CRACO's webpack con
 
 ### Backend (`backend/`)
 ```bash
-docker-compose up --build   # runs db-jolayacht (Postgres), backend (FastAPI on :5010), adminer (:8081)
+docker-compose up --build   # runs db-islabrava (Postgres), backend (FastAPI on :5010), adminer (:8081)
 ```
-Requires a pre-existing `.env` in `backend/` (DB_HOST, DB_USER, DB_PASSWORD, DB_NAME, DB_PORT, DATABASE_URL, JWT_SECRET_KEY, STRIPE_API_KEY, STRIPE_WEBHOOK_SECRET, PAYPAL_CLIENT_ID/SECRET, CORS_ORIGINS, ADMIN_EMAIL/PASSWORD). The compose file expects the network `jolayacht-net` (created automatically by this compose file itself — not external, despite what `backend/README.md` implies).
+Requires a pre-existing `.env` in `backend/` (DB_HOST, DB_USER, DB_PASSWORD, DB_NAME, DB_PORT, DATABASE_URL, JWT_SECRET_KEY, STRIPE_API_KEY, STRIPE_WEBHOOK_SECRET, PAYPAL_CLIENT_ID/SECRET, CORS_ORIGINS, ADMIN_EMAIL/PASSWORD). The compose file creates the `islabrava-net` network automatically.
 
 Running outside Docker: `python -m uvicorn src.API.api:app --host 0.0.0.0 --port 5010` from `backend/` with a venv (`backend/.venv` already exists) that has `requirements.txt` installed and `.env` loaded (`config.py` calls `load_dotenv()`).
 
@@ -39,11 +39,11 @@ Health check: `GET /health` (pings the DB). Root: `GET /`.
 Everything lives in `backend/src/`, three layers, no framework-level routers/blueprints — it's all one FastAPI app instance:
 
 - `API/api.py` — the entire FastAPI app: route declarations, Pydantic request models, CORS, Stripe/PayPal checkout flows, admin JWT auth dependency (`get_current_admin`). ~850 lines, all endpoints in one file.
-- `Utils/jolayacht_exec.py` — business logic layer. Each entity (experiences, fleet, reviews, faqs, promotions, reservations, payments, stats, auth) has plain functions here (`get_all_x`, `create_x`, `update_x`, `delete_x`) that call into the query layer and shape results. Also owns password hashing/JWT (`hash_password`, `create_token`, `verify_token`) and email sending (`send_booking_confirmation_email`).
-- `Queries/jolayacht_queries.py` — raw SQL query builders/strings consumed by the Utils layer.
+- `Utils/islabrava_exec.py` — business logic layer. Each entity (experiences, fleet, reviews, faqs, promotions, reservations, payments, stats, auth) has plain functions here (`get_all_x`, `create_x`, `update_x`, `delete_x`) that call into the query layer and shape results. Also owns password hashing/JWT (`hash_password`, `create_token`, `verify_token`) and email sending (`send_booking_confirmation_email`).
+- `Queries/islabrava_queries.py` — raw SQL query builders/strings consumed by the Utils layer.
 - `config/config.py` — reads `.env` into module-level constants (`DATABASE_URL` built from discrete DB_* vars, JWT settings, SMTP settings).
 
-Data access goes through three primitives defined in `jolayacht_exec.py`: `execute_query` (SELECT → list of dicts), `execute_write` (INSERT/UPDATE with RETURNING → list of dicts), `execute_update` (UPDATE/DELETE → rowcount). No ORM models; rows are plain dicts. IDs are Postgres `uuid` (via `pgcrypto`'s `gen_random_uuid()`).
+Data access goes through three primitives defined in `islabrava_exec.py`: `execute_query` (SELECT → list of dicts), `execute_write` (INSERT/UPDATE with RETURNING → list of dicts), `execute_update` (UPDATE/DELETE → rowcount). No ORM models; rows are plain dicts. IDs are Postgres `uuid` (via `pgcrypto`'s `gen_random_uuid()`).
 
 Key domain rules encoded in `backend/init.sql` (the schema is the source of truth for these):
 - A `reservations` row must reference exactly one of `experience_id` or `fleet_id` (`ck_reservation_one_item`), never both/neither.

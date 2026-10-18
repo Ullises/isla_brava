@@ -16,10 +16,10 @@ Esto abre la interfaz de **Adminer**.
 En la página de Adminer, verás un formulario con los siguientes campos:
 
 - **Sistema**: Selecciona **PostgreSQL** (es la opción por defecto).
-- **Servidor**: Escribe `db-jolayacht`  
-  > 💡 **Importante**: Como Adminer y PostgreSQL están en la misma red de Docker (por estar en el mismo `docker-compose.yml`), puedes usar el **nombre del servicio** (`db-jolayacht`) como host.  
+- **Servidor**: Escribe `db-islabrava`  
+  > 💡 **Importante**: Como Adminer y PostgreSQL están en la misma red de Docker (por estar en el mismo `docker-compose.yml`), puedes usar el **nombre del servicio** (`db-islabrava`) como host.  
   > Si accedes desde fuera de Docker (por ejemplo, desde tu máquina local), también podrías usar `localhost`, **pero solo si el puerto 5432 está expuesto y accesible**, lo cual sí lo está en tu caso (`ports: - "5432:5432"`).  
-  > **Sin embargo**, dentro del contenedor de Adminer, `localhost` apuntaría a sí mismo (no a PostgreSQL), por lo que **lo correcto es usar `db-jolayacht`**.
+  > **Sin embargo**, dentro del contenedor de Adminer, `localhost` apuntaría a sí mismo (no a PostgreSQL), por lo que **lo correcto es usar `db-islabrava`**.
 
 - **Usuario**: `admin`  
   (el que definiste en `.env` con `DB_USER=admin`)
@@ -27,7 +27,7 @@ En la página de Adminer, verás un formulario con los siguientes campos:
 - **Contraseña**: `supersecret12321`  
   (la que definiste en `.env` con `DB_PASSWORD=supersecret12321`)
 
-- **Base de datos**: `jolayacht`  
+- **Base de datos**: `islabrava`  
   (opcional, pero puedes ponerla para conectarte directamente a esa BD)
 
 > ⚠️ **No uses `root` a menos que quieras**. Tienes un usuario `admin` creado, así que es mejor usar ese por seguridad.
@@ -39,19 +39,19 @@ En la página de Adminer, verás un formulario con los siguientes campos:
 | Campo        | Valor               |
 |--------------|---------------------|
 | Sistema      | PostgreSQL               |
-| Servidor     | `db-jolayacht`      |
+| Servidor     | `db-islabrava`      |
 | Usuario      | `admin`             |
 | Contraseña   | `supersecret12321`     |
-| Base de datos| `jolayacht` (opcional) |
+| Base de datos| `islabrava` (opcional) |
 
 Haz clic en **"Iniciar sesión"** y ¡deberías entrar!
 
 ---
 
-### 🔍 ¿Por qué `db-jolayacht` y no `localhost`?
+### 🔍 ¿Por qué `db-islabrava` y no `localhost`?
 
 - Docker Compose crea una red interna donde cada servicio puede comunicarse usando el **nombre del servicio** como hostname.
-- El contenedor de Adminer está en esa red, así que puede resolver `db-jolayacht` al contenedor de PostgreSQL.
+- El contenedor de Adminer está en esa red, así que puede resolver `db-islabrava` al contenedor de PostgreSQL.
 - Si usas `localhost` desde Adminer, intentaría conectarse a **su propio contenedor** (que no tiene PostgreSQL), y fallaría.
 
 ---

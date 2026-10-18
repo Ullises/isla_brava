@@ -53,7 +53,7 @@ export const WhyUsSection = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-16">
-          <p className="font-accent text-2xl text-[#FF7F50] mb-2">Jola Yacht</p>
+          <p className="font-accent text-2xl text-[#FF7F50] mb-2">Isla Brava</p>
           <h2 
             className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#0F2C59] mb-4"
             style={{ fontFamily: 'Playfair Display, serif' }}

@@ -55,7 +55,7 @@ export const AdminLogin = () => {
           >
             Admin Panel
           </h1>
-          <p className="text-gray-600">Jola Yacht</p>
+          <p className="text-gray-600">Isla Brava</p>
         </div>
 
         <form onSubmit={handleLogin} className="space-y-5">
@@ -68,7 +68,7 @@ export const AdminLogin = () => {
               onChange={(e) => setEmail(e.target.value)}
               required
               className="h-12 rounded-xl"
-              placeholder="admin@jolayacht.com"
+              placeholder="admin@islabrava.mx"
             />
           </div>
 
@@ -978,7 +978,7 @@ export const AdminDashboard = () => {
       {/* Sidebar */}
       <aside className={`fixed lg:static inset-y-0 left-0 z-50 w-64 bg-[#0F2C59] transform ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0 transition-transform duration-300`}>
         <div className="p-6">
-          <h2 className="text-white text-xl font-bold">Jola Yacht</h2>
+          <h2 className="text-white text-xl font-bold">Isla Brava</h2>
           <p className="text-white/60 text-sm">Admin Panel</p>
         </div>
 

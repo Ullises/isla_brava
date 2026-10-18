@@ -1,7 +1,7 @@
 # docker-compose.db.yml (o tu archivo actual)
 version: '3.8'
 services:
-  db-jolayacht:
+  db-islabrava:
     image: mysql:8
     env_file:
       - .env
@@ -11,19 +11,19 @@ services:
     ports:
       - "3306:3306"
     networks:
-      - jolayacht-net
+      - islabrava-net
 
-  adminer-jolayacht-db:
+  adminer-islabrava-db:
     image: adminer
     ports:
       - "8081:8080"
     networks:
-      - jolayacht-net
+      - islabrava-net
 
 volumes:
   mysql_data:
 
 networks:
-  jolayacht-net:
-    name: jolayacht-net
+  islabrava-net:
+    name: islabrava-net
     driver: bridge
