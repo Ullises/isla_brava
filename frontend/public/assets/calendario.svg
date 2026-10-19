@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="calendario">
+<g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="12" width="50" height="46" rx="6"/><path d="M7 25h50M20 5v14M44 5v14"/><path d="M19 35h6M32 35h6M45 35h1M19 46h6M32 46h6"/></g>
+</svg>

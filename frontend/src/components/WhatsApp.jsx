@@ -32,7 +32,7 @@ export const WhatsAppFloat = () => {
       href={getWhatsAppUrl(language)}
       target="_blank"
       rel="noopener noreferrer"
-      className="whatsapp-float"
+      className={`whatsapp-float ${location.pathname === '/yachts' ? 'whatsapp-float--yacht-page' : ''}`}
       aria-label={label}
       title={label}
       data-testid="whatsapp-float"

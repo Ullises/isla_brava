@@ -25,6 +25,8 @@ services:
     restart: unless-stopped
     env_file:
       - .env
+    environment:
+      DB_HOST: db-islabrava
     depends_on:
       - db-islabrava
     ports:

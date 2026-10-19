@@ -19,6 +19,7 @@ import { BookingPage } from "./components/BookingPage";
 import { PaymentSuccess, PaymentCancel } from "./components/PaymentPages";
 import { AdminLogin, AdminDashboard } from "./components/AdminDashboard";
 import { CatalogPage } from "./components/CatalogPage";
+import { YachtDetailPage } from "./components/YachtDetailPage";
 import { WhatsAppFloat } from "./components/WhatsApp";
 
 // Landing Page
@@ -49,6 +50,7 @@ function App() {
             <Route path="/" element={<LandingPage />} />
             <Route path="/experiences" element={<CatalogPage type="experiences" />} />
             <Route path="/fleet" element={<CatalogPage type="fleet" />} />
+            <Route path="/yachts" element={<YachtDetailPage />} />
             
             {/* Booking Routes */}
             <Route path="/booking/:experienceId" element={

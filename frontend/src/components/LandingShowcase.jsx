@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
 
 const categories = [
-  { icon: '/assets/yates.svg', image: '/assets/07_card_yates.png', es: 'Yates', en: 'Yachts', subEs: 'Lujo y confort', subEn: 'Luxury and comfort' },
+  { icon: '/assets/yates.svg', image: '/assets/07_card_yates.png', to: '/yachts', es: 'Yates', en: 'Yachts', subEs: 'Lujo y confort', subEn: 'Luxury and comfort' },
   { icon: '/assets/motos_acuaticas.svg', image: '/assets/08_card_motos_acuaticas.png', es: 'Motos acuaticas', en: 'Jet skis', subEs: 'Adrenalina y diversion', subEn: 'Adrenaline and fun' },
   { icon: '/assets/pesca_deportiva.svg', image: '/assets/09_card_pesca_deportiva.png', es: 'Pesca deportiva', en: 'Sport fishing', subEs: 'Grandes experiencias', subEn: 'Big experiences' },
   { icon: '/assets/tours.svg', image: '/assets/10_card_tours.png', es: 'Tours', en: 'Tours', subEs: 'Explora el paraiso', subEn: 'Explore paradise' },
@@ -22,7 +22,7 @@ const benefits = [
 export const CategoryStrip = () => (
   <section className="category-strip" id="servicios" aria-label="Isla Brava services">
     {categories.map((category) => (
-      <Link className="category-strip__item" to="/experiences" key={category.en}>
+      <Link className="category-strip__item" to={category.to || '/experiences'} key={category.en}>
         <img src={category.icon || category.image} alt="" />
         <span>{category.en}</span>
       </Link>
@@ -65,7 +65,7 @@ export const CategoryShowcase = () => {
   return (
     <section className="showcase-section" id="experiencias" aria-label={isSpanish ? 'Categorías' : 'Categories'}>
       {categories.map((category) => (
-        <Link className="showcase-card" to="/experiences" key={category.en}>
+        <Link className="showcase-card" to={category.to || '/experiences'} key={category.en}>
           <img src={category.image} alt="" />
           <span className="showcase-card__shade" />
           <span className="showcase-card__label">
