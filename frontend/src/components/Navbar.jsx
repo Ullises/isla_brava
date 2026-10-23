@@ -23,6 +23,7 @@ export const Navbar = () => {
   const { toggleLanguage, language, t } = useLanguage();
   const navigate = useNavigate();
   const location = useLocation();
+  const isYachtPage = location.pathname === '/yachts';
 
   useEffect(() => {
     const handleScroll = () => {
@@ -50,19 +51,31 @@ export const Navbar = () => {
     if (el) el.scrollIntoView({ behavior: 'smooth' });
   }, [location.pathname, location.hash]);
 
-  const navLinks = [
-    { href: '#inicio', label: t('nav.inicio') },
-    { href: '#nosotros', label: t('nav.nosotros') },
-    { href: '#servicios', label: t('nav.servicios') },
-    { href: '/fleet', label: t('nav.flota') },
-    { href: '/experiences', label: t('nav.experiencias') },
-    { href: '#contacto', label: t('nav.contacto') },
-  ];
+  const navLinks = isYachtPage
+    ? [
+      { href: '/', label: language === 'es' ? 'Inicio' : 'Home' },
+      { href: '/yachts', label: language === 'es' ? 'Yates' : 'Yachts' },
+      { href: '/fleet', label: 'Jet Ski' },
+      { href: '/experiences', label: language === 'es' ? 'Pesca' : 'Fishing' },
+      { href: '/experiences', label: language === 'es' ? 'Experiencias' : 'Experiences' },
+      { href: '/#contacto', label: language === 'es' ? 'Contacto' : 'Contact' },
+    ]
+    : [
+      { href: '#inicio', label: t('nav.inicio') },
+      { href: '#nosotros', label: t('nav.nosotros') },
+      { href: '#servicios', label: t('nav.servicios') },
+      { href: '/fleet', label: t('nav.flota') },
+      { href: '/experiences', label: t('nav.experiencias') },
+      { href: '#contacto', label: t('nav.contacto') },
+    ];
 
   const whatsappUrl = getWhatsAppUrl(language);
 
-  const isActive = (href) =>
-    location.pathname === '/' ? activeSection === href : location.pathname.startsWith(href);
+  const isActive = (href) => isYachtPage
+    ? href === '/yachts'
+    : location.pathname === '/'
+      ? activeSection === href
+      : location.pathname.startsWith(href);
 
   const scrollToSection = (href) => {
     if (href.startsWith('/') || (href.startsWith('#') && location.pathname !== '/')) {
@@ -80,7 +93,7 @@ export const Navbar = () => {
   return (
     <nav
       data-testid="navbar"
-      className={`site-navbar ${isScrolled ? 'site-navbar--scrolled' : ''}`}
+      className={`site-navbar ${isYachtPage ? 'site-navbar--yacht' : ''} ${isScrolled ? 'site-navbar--scrolled' : ''}`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
@@ -94,12 +107,12 @@ export const Navbar = () => {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center space-x-8">
+          <div className="hidden lg:flex items-center space-x-8 site-navbar__nav-links">
             {navLinks.map((link) => (
               <button
-                key={link.href}
+                key={`${link.href}-${link.label}`}
                 onClick={() => scrollToSection(link.href)}
-                data-testid={`nav-${link.href.replace('#', '')}`}
+                data-testid={`nav-${link.label.toLowerCase().replace(/\s+/g, '-')}`}
                 className={`site-navbar__link ${isActive(link.href) ? 'site-navbar__link--active' : ''}`}
                 aria-current={isActive(link.href) ? 'page' : undefined}
               >
@@ -109,7 +122,7 @@ export const Navbar = () => {
           </div>
 
           {/* Right side actions */}
-          <div className="hidden lg:flex items-center space-x-4">
+          <div className="hidden lg:flex items-center space-x-4 site-navbar__actions">
             {/* Language Toggle */}
             <button
               onClick={toggleLanguage}
@@ -150,7 +163,7 @@ export const Navbar = () => {
             <div className="flex flex-col space-y-3">
               {navLinks.map((link) => (
                 <button
-                  key={link.href}
+                  key={`${link.href}-${link.label}`}
                   onClick={() => scrollToSection(link.href)}
                   className={`text-[#0F2C59] font-medium py-2 px-4 rounded-lg hover:bg-gray-100 text-left border-l-2 ${isActive(link.href) ? 'border-[#B8945F]' : 'border-transparent'}`}
                 >

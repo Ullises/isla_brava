@@ -1,0 +1,1 @@
+const cards=document.getElementById('boatCards');document.getElementById('nextBoats').addEventListener('click',()=>cards.append(cards.firstElementChild));document.getElementById('prevBoats').addEventListener('click',()=>cards.prepend(cards.lastElementChild));

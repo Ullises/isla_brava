@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "@/App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { Toaster } from "sonner";
 import { LanguageProvider } from "./context/LanguageContext";
 
@@ -21,6 +21,18 @@ import { AdminLogin, AdminDashboard } from "./components/AdminDashboard";
 import { CatalogPage } from "./components/CatalogPage";
 import { YachtDetailPage } from "./components/YachtDetailPage";
 import { WhatsAppFloat } from "./components/WhatsApp";
+
+const ScrollToTop = () => {
+  const { pathname, hash } = useLocation();
+
+  useEffect(() => {
+    if (!hash) {
+      window.scrollTo(0, 0);
+    }
+  }, [pathname, hash]);
+
+  return null;
+};
 
 // Landing Page
 const LandingPage = () => {
@@ -45,6 +57,7 @@ function App() {
     <LanguageProvider>
       <div className="App">
         <BrowserRouter>
+          <ScrollToTop />
           <Routes>
             {/* Public Routes */}
             <Route path="/" element={<LandingPage />} />
