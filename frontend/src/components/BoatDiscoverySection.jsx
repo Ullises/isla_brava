@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import { getWhatsAppUrl } from './WhatsApp';
@@ -45,11 +45,46 @@ const boatInquiryUrl = (language, boatName) => {
 export const BoatDiscoverySection = () => {
   const { language } = useLanguage();
   const isSpanish = language === 'es';
-  const [firstBoatIndex, setFirstBoatIndex] = useState(0);
-  const visibleBoats = boats.map((_, index) => boats[(firstBoatIndex + index) % boats.length]);
+  const [boatOrder, setBoatOrder] = useState([-2, -1, 0, 1, 2]);
+  const [slideDirection, setSlideDirection] = useState('');
+  const pointerStart = useRef(null);
+  const suppressClick = useRef(false);
 
   const moveBoats = (direction) => {
-    setFirstBoatIndex((current) => (current + direction + boats.length) % boats.length);
+    if (slideDirection) return;
+
+    setBoatOrder((current) => direction > 0
+      ? [...current.slice(1), current[current.length - 1] + 1]
+      : [current[0] - 1, ...current.slice(0, -1)]);
+    setSlideDirection(direction > 0 ? 'next' : 'previous');
+  };
+
+  const handleAnimationEnd = (event) => {
+    if (event.target === event.currentTarget) setSlideDirection('');
+  };
+
+  const handlePointerDown = (event) => {
+    if (event.button !== 0) return;
+    pointerStart.current = event.clientX;
+    event.currentTarget.setPointerCapture(event.pointerId);
+  };
+
+  const handlePointerUp = (event) => {
+    if (pointerStart.current === null) return;
+
+    const distance = event.clientX - pointerStart.current;
+    pointerStart.current = null;
+
+    if (Math.abs(distance) < 40) return;
+
+    suppressClick.current = true;
+    moveBoats(distance < 0 ? 1 : -1);
+  };
+
+  const handleCardClick = (event) => {
+    if (!suppressClick.current) return;
+    event.preventDefault();
+    suppressClick.current = false;
   };
 
   return (
@@ -63,30 +98,51 @@ export const BoatDiscoverySection = () => {
             ? <>Encuentra el yate ideal<br />para tu próxima escapada.</>
             : <>Find the perfect boat<br />for your next escape.</>}
         </h2>
-        <div className="boat-discovery__cards" aria-live="polite">
-          {visibleBoats.map((boat) => (
-            <a
-              className="boat-discovery__card"
-              href={boatInquiryUrl(language, boat.name)}
-              target="_blank"
-              rel="noreferrer"
-              aria-label={`${isSpanish ? 'Consultar disponibilidad para' : 'Check availability for'} ${boat.name}`}
-              key={boat.name}
-            >
-              <img
-                src={`${imageRoot}/${boat.image}`}
-                alt={isSpanish ? boat.altEs : boat.altEn}
-                loading="lazy"
-              />
-              <span>{boat.name}</span>
-            </a>
-          ))}
+        <div
+          className="boat-discovery__cards"
+          aria-label={isSpanish ? 'Desliza para explorar los yates' : 'Swipe to explore yachts'}
+          onPointerDown={handlePointerDown}
+          onPointerUp={handlePointerUp}
+          onPointerCancel={() => { pointerStart.current = null; }}
+          onClickCapture={handleCardClick}
+        >
+          <div
+            className={`boat-discovery__track ${slideDirection ? `boat-discovery__track--${slideDirection}` : ''}`}
+            onAnimationEnd={handleAnimationEnd}
+          >
+            {boatOrder.map((boatPosition, index) => {
+              const boatIndex = ((boatPosition % boats.length) + boats.length) % boats.length;
+              const boat = boats[boatIndex];
+
+              return (
+                <a
+                  className="boat-discovery__card"
+                  href={boatInquiryUrl(language, boat.name)}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label={`${isSpanish ? 'Consultar disponibilidad para' : 'Check availability for'} ${boat.name}`}
+                  key={boatPosition}
+                  data-position={index - 2}
+                  tabIndex={slideDirection && index === boatOrder.length - 1 ? -1 : undefined}
+                >
+                  <img
+                    src={`${imageRoot}/${boat.image}`}
+                    alt={isSpanish ? boat.altEs : boat.altEn}
+                    loading="lazy"
+                    draggable="false"
+                  />
+                  <span>{boat.name}</span>
+                </a>
+              );
+            })}
+          </div>
         </div>
         <div className="boat-discovery__controls" aria-label={isSpanish ? 'Controles de yates' : 'Yacht carousel controls'}>
           <button
             type="button"
             onClick={() => moveBoats(-1)}
             aria-label={isSpanish ? 'Ver yates anteriores' : 'Show previous yachts'}
+            disabled={Boolean(slideDirection)}
           >
             <ArrowLeft size={18} aria-hidden="true" />
           </button>
@@ -94,6 +150,7 @@ export const BoatDiscoverySection = () => {
             type="button"
             onClick={() => moveBoats(1)}
             aria-label={isSpanish ? 'Ver más yates' : 'Show more yachts'}
+            disabled={Boolean(slideDirection)}
           >
             <ArrowRight size={18} aria-hidden="true" />
           </button>
